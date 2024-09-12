@@ -1,77 +1,80 @@
 import React from 'react';
-import { StyleSheet, View, TouchableHighlight, Text, Image, } from 'react-native';
+import { StyleSheet, View, TouchableHighlight, Text, Image } from 'react-native';
 import PropTypes from 'prop-types';
 import colors from '../utility/colors';
 
-const ContactListItem =({
-    name, avatar, phone, onPress,
-}) =>
-{
-    return (
-        <TouchableHighlight
-            underlayColor = {colors.grey}
-            style = {styles.container}
-            onPress = {onPress}
-        >
-            <View style = {styles.contactInfo}>
-                <Image
-                    style = {styles.avatar}
-                    source = {{
-                        uri: avatar,
-                    }}
-                />
-    
-                <View style = {styles.details}>
-                    <Text style = {[styles.title]} >{name}</Text>
-                    <Text style = {[styles.subtitle]} >{phone}</Text>
-                </View>
-            </View>
+const ContactListItem = ({ name, avatar, phone, onPress }) => {
+  // Fallback avatar nếu không có URL hoặc ảnh lỗi
+  const defaultAvatar = 'https://via.placeholder.com/44';  // Đường dẫn ảnh mặc định
 
-        </TouchableHighlight>
-    );
-}
+  return (
+    <TouchableHighlight
+      underlayColor={colors.greyLight}
+      style={styles.container}
+      onPress={onPress}
+    >
+      <View style={styles.contactInfo}>
+        <Image
+          style={styles.avatar}
+          source={{
+            uri: avatar || defaultAvatar,
+          }}
+        />
+        <View style={styles.details}>
+          <Text style={styles.title}>{name}</Text>
+          <Text style={styles.subtitle}>{phone}</Text>
+        </View>
+      </View>
+    </TouchableHighlight>
+  );
+};
 
 export default ContactListItem;
 
 ContactListItem.propTypes = {
-    name: PropTypes.string,
-    avatar: PropTypes.string,
-    phone: PropTypes.string,
-    onPress: PropTypes.func,
+  name: PropTypes.string.isRequired,
+  avatar: PropTypes.string,
+  phone: PropTypes.string,
+  onPress: PropTypes.func,
+};
+
+ContactListItem.defaultProps = {
+  avatar: '',
+  phone: '',
+  onPress: null,
 };
 
 const styles = StyleSheet.create({
-    container: {
-        paddingLeft: 24,
-    },
-    contactInfo: {
-        flex: 1,
-        flexDirection: 'row',
-        alignItems: 'center',
-        paddingTop: 16,
-        paddingBottom: 16,
-        paddingRight: 24,
-        borderBottomColor: colors.grey,
-        borderBottomWidth: StyleSheet.hairlineWidth,
-    },
-    avatar: {
-        borderRadius: 22,
-        width: 44,
-        height: 44,
-    },
-    details: {
-        justifyContent: "center",
-        flex: 1, 
-        marginLeft: 20, 
-    },
-    title: {
-        color: colors.black,
-        fontWeight: 'bold',
-        fontSize: 16,
-    },
-    subtitle: {
-        color: colors.blue,
-        fontSize: 15,
-        marginTop: 4,
-    },
+  container: {
+    paddingLeft: 24,
+    backgroundColor: 'white',
+  },
+  contactInfo: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 16,
+    paddingRight: 24,
+    borderBottomColor: colors.grey,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+  },
+  avatar: {
+    borderRadius: 22,
+    width: 44,
+    height: 44,
+  },
+  details: {
+    justifyContent: 'center',
+    flex: 1,
+    marginLeft: 20,
+  },
+  title: {
+    color: colors.black,
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
+  subtitle: {
+    color: colors.blue,
+    fontSize: 14,
+    marginTop: 4,
+  },
 });
